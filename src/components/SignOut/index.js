@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-dom';
 
 import { withFirebase } from 'hocs';
 
 class Signout extends Component {
   signOut = () => {
-    const { firebase } = this.props;
+    const { firebase, history } = this.props;
 
+    console.log(history);
     firebase.auth().signOut();
   };
 

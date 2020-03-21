@@ -1,8 +1,11 @@
 import React from 'react';
-import { FirebaseContext } from "contexts";
+import { useFirebase } from "hooks";
+import { Spinner } from "components";
 
-export default Component => props => (
-  <FirebaseContext.Consumer>
-    {firebase => <Component {...props} firebase={firebase} />}
-  </FirebaseContext.Consumer>
-);
+export default Component => (props) => {
+  const { firebase } = useFirebase();
+  
+  if (!firebase) return <Spinner/>;
+  
+  return <Component {...props} firebase={firebase} />;
+};

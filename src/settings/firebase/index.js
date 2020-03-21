@@ -1,4 +1,6 @@
-const config = {
+import { paths } from "settings/navigation";
+
+export const config = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.FIREBASE_DATABASE_URL,
@@ -17,10 +19,10 @@ export const getUiConfig = firebase => ({
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
   ],
-  signInSuccessUrl: "/"
+  signInSuccessUrl: paths.admin,
 });
 
-const getFirebase = firebase => {
+export const getFirebase = firebase => {
   if (firebaseCache) {
     return firebaseCache;
   }

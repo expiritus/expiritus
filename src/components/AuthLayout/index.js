@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import getFirebase from 'settings/firebase';
-import { FirebaseContext } from "contexts";
 import { Spinner, SignIn } from "components";
 
 class AuthLayout extends Component {
@@ -38,15 +37,19 @@ class AuthLayout extends Component {
     const { children } = this.props;
     const { firebase, authenticated } = this.state;
 
-    if (!firebase) return null;
-    if (authenticated === null) return <Spinner />;
+    let isAdmin = false;
+    if (firebase && firebase.auth().currentUser) {
+      if (firebase.auth().currentUser) {
+        isAdmin = firebase.auth().currentUser.uid === process.env.ADMIN_ID;
+      }
+    }
 
-    return (
-      <FirebaseContext.Provider value={firebase}>
-        {authenticated ? children : <SignIn />}
-      </FirebaseContext.Provider>
-    );
-  }
+
+    if (!firebase || authenticated === null) return <Spinner />;
+    if (!isAdmin) return <div>Access denied</div>;
+
+    return authenticated ? children : <SignIn />;
+  };
 }
 
 AuthLayout.propTypes = {
